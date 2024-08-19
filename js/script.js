@@ -19,3 +19,33 @@ function showData(dataArray) {
 }
 
 // Escribe el código necesario para realizar el fetch al archivo con los datos y mostrar los estudiantes con la función showData
+
+function showData(dataArray) {
+
+  if (Array.isArray(dataArray)) {
+    container.innerHTML = ''; 
+    for (const item of dataArray) {
+      container.innerHTML += `<p>${item.name} ${item.lastname}</p>`;
+    }
+  } else {
+    console.error("El dato pasado a showData no es un array:", dataArray);
+  }
+}
+
+
+fetch(DATA_URL)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Hubo un error al intentar recuperar los datos");
+    }
+    return response.json(); 
+  })
+  .then(data => {
+    console.log("Datos recuperados:", data); 
+    
+    showData(data.students);
+  })
+  .catch(error => {
+    console.error("Hubo un problema con el fetch:", error); 
+  });
+
